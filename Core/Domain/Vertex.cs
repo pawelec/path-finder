@@ -9,7 +9,7 @@ namespace PathFinder.Core
             this.Edges = new List<Edge>();
         }
         
-        public char Character { get; set; }
+        public int Id { get; set; }
         public IEnumerable<Edge> Edges { get; set; }    
     }
 }
