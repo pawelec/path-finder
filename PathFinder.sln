@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathFinder.Core", "Core\Pat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathFinder.AStar", "AStar\PathFinder.AStar.csproj", "{721A7CBE-4A8E-42B6-8F84-81770F38A2C4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C36653E3-9A5E-4A1E-BE43-E120CD99D9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathFinder.AStar.Tests", "Tests\AStar\PathFinder.AStar.Tests.csproj", "{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +48,20 @@ Global
 		{721A7CBE-4A8E-42B6-8F84-81770F38A2C4}.Release|x64.Build.0 = Release|x64
 		{721A7CBE-4A8E-42B6-8F84-81770F38A2C4}.Release|x86.ActiveCfg = Release|x86
 		{721A7CBE-4A8E-42B6-8F84-81770F38A2C4}.Release|x86.Build.0 = Release|x86
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|x64.ActiveCfg = Debug|x64
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|x64.Build.0 = Debug|x64
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|x86.ActiveCfg = Debug|x86
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Debug|x86.Build.0 = Debug|x86
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|x64.ActiveCfg = Release|x64
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|x64.Build.0 = Release|x64
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|x86.ActiveCfg = Release|x86
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD3A6180-C326-4958-B0EA-D89CEC5C50E5} = {C36653E3-9A5E-4A1E-BE43-E120CD99D9E4}
 	EndGlobalSection
 EndGlobal
