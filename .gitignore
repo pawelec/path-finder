@@ -316,3 +316,6 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+
+# VS Code
+.vscode
