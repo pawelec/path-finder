@@ -1,5 +1,7 @@
 namespace PathFinder.Core 
 {
+    using System.Collections.Generic;
+    
     public class Vertex 
     {
         public Vertex()
