@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core;
-    
+
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
     public class PathFinder : IPathFinder
     {
@@ -11,43 +11,48 @@
         {
             var closedset = new List<Vertex>();
             var openset = source.Edges.Select(edge => edge.B).ToList();
-            var g_score = new Dictionary<Vertex, float> 
+            var g_score = new Dictionary<Vertex, float>
             {
                 [source] = 0
             };
+            var h_score = new Dictionary<Vertex, float>();
+            var f_score = new Dictionary<Vertex, float>();
+            var cameFrom = new Dictionary<Vertex, Vertex>();
 
             do
             {
-                var x = this.GetVetexWithLowestFScore(openset);
-                // g_score.Add(x, )
-                if(x == destination) {
-                    this.ReconstructPath(x, destination);
-                }
-                openset.Remove(x);
-                closedset.Add(x);
-
-                foreach (var neightbor in x.Edges.Select(edge => edge.B).ToList())
+                var vertexWithLowestFScore = this.GetVetexWithLowestFScore(openset);
+                if (vertexWithLowestFScore == destination)
                 {
-                    if(closedset.Contains(neightbor)) 
+                    this.ReconstructPath(vertexWithLowestFScore, destination);
+                }
+                openset.Remove(vertexWithLowestFScore);
+                closedset.Add(vertexWithLowestFScore);
+
+                foreach (var neightbor in vertexWithLowestFScore.Edges.Select(edge => edge.B).ToList())
+                {
+                    if (closedset.Contains(neightbor))
                     {
                         continue;
                     }
-                    var tentative_g_score = g_score[x] + DistBetween(x, neightbor);
+                    var tentative_g_score = g_score[vertexWithLowestFScore] + DistBetween(vertexWithLowestFScore, neightbor);
                     var tentative_is_better = false;
 
-                    if(!openset.Contains(neightbor))
+                    if (!openset.Contains(neightbor))
                     {
-
+                        openset.Add(neightbor);
+                        h_score[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor);
+                        tentative_is_better = true;
                     }
-                    else if(tentative_g_score < g_score[neightbor])
+                    else if (tentative_g_score < g_score[neightbor])
                     {
-
+                        tentative_is_better = true;
                     }
-                    if(tentative_is_better)
+                    if (tentative_is_better)
                     {
-                        //  came_from[y] := x
-                        //  g_score[y] := tentative_g_score
-                        //  f_score[y] := g_score[y] + h_score[y]
+                        cameFrom[neightbor] = vertexWithLowestFScore;
+                        g_score[neightbor] = tentative_g_score;
+                        f_score[neightbor] = g_score[neightbor] + h_score[neightbor];
                     }
                 }
             } while (openset.Any());
@@ -58,12 +63,17 @@
             throw new System.NotImplementedException();
         }
 
-        private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination) 
+        private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination)
         {
             throw new System.NotImplementedException();
         }
 
-        private float DistBetween(Vertex current, Vertex destination) 
+        private float DistBetween(Vertex current, Vertex destination)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current) 
         {
             throw new System.NotImplementedException();
         }
