@@ -6,7 +6,7 @@
 
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
     public class PathFinder : IPathFinder
-    {
+    {    
         public void FindPath(Vertex source, Vertex destination)
         {
             var closedset = new List<Vertex>();
@@ -41,7 +41,7 @@
                     if (!openset.Contains(neightbor))
                     {
                         openset.Add(neightbor);
-                        h_score[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor);
+                        h_score[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor, destination);
                         tentative_is_better = true;
                     }
                     else if (tentative_g_score < g_score[neightbor])
@@ -68,12 +68,12 @@
             throw new System.NotImplementedException();
         }
 
-        private float DistBetween(Vertex current, Vertex destination)
+        private float DistBetween(Vertex parent, Vertex current)
         {
             throw new System.NotImplementedException();
         }
 
-        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current) 
+        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
         {
             throw new System.NotImplementedException();
         }
