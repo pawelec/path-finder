@@ -75,7 +75,8 @@
 
         private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
         {
-            throw new System.NotImplementedException();
+            float distance = current.Id > destination.Id ? current.Id - destination.Id : destination.Id - current.Id;
+            return distance < 0 ? -distance : distance;
         }
     }
 }
