@@ -7,17 +7,16 @@
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
     public class PathFinder : IPathFinder
     {    
+        private Dictionary<Vertex, float> gScore = new Dictionary<Vertex, float>();
+        private Dictionary<Vertex, float> hScore = new Dictionary<Vertex, float>();
+        private Dictionary<Vertex, float> fScore = new Dictionary<Vertex, float>();
+        private Dictionary<Vertex, Vertex> cameFrom = new Dictionary<Vertex, Vertex>();
+
         public void FindPath(Vertex source, Vertex destination)
         {
             var closedset = new List<Vertex>();
             var openset = source.Edges.Select(edge => edge.B).ToList();
-            var g_score = new Dictionary<Vertex, float>
-            {
-                [source] = 0
-            };
-            var h_score = new Dictionary<Vertex, float>();
-            var f_score = new Dictionary<Vertex, float>();
-            var cameFrom = new Dictionary<Vertex, Vertex>();
+            this.gScore[source] = 0;
 
             do
             {
@@ -35,24 +34,24 @@
                     {
                         continue;
                     }
-                    var tentative_g_score = g_score[vertexWithLowestFScore] + DistBetween(vertexWithLowestFScore, neightbor);
+                    var tentative_g_score = this.gScore[vertexWithLowestFScore] + DistanceBetween(vertexWithLowestFScore, neightbor);
                     var tentative_is_better = false;
 
                     if (!openset.Contains(neightbor))
                     {
                         openset.Add(neightbor);
-                        h_score[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor, destination);
+                        this.hScore[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor, destination);
                         tentative_is_better = true;
                     }
-                    else if (tentative_g_score < g_score[neightbor])
+                    else if (tentative_g_score < this.gScore[neightbor])
                     {
                         tentative_is_better = true;
                     }
                     if (tentative_is_better)
                     {
-                        cameFrom[neightbor] = vertexWithLowestFScore;
-                        g_score[neightbor] = tentative_g_score;
-                        f_score[neightbor] = g_score[neightbor] + h_score[neightbor];
+                        this.cameFrom[neightbor] = vertexWithLowestFScore;
+                        this.gScore[neightbor] = tentative_g_score;
+                        this.fScore[neightbor] = this.gScore[neightbor] + this.hScore[neightbor];
                     }
                 }
             } while (openset.Any());
@@ -68,7 +67,7 @@
             throw new System.NotImplementedException();
         }
 
-        private float DistBetween(Vertex parent, Vertex current)
+        private float DistanceBetween(Vertex parent, Vertex current)
             => parent.Edges.First(edge => edge.B == current).Weight;
 
         private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
