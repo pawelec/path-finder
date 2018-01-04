@@ -69,9 +69,7 @@
         }
 
         private float DistBetween(Vertex parent, Vertex current)
-        {
-            throw new System.NotImplementedException();
-        }
+            => parent.Edges.First(edge => edge.B == current).Weight;
 
         private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
         {
