@@ -64,7 +64,13 @@
 
         private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination)
         {
-            throw new System.NotImplementedException();
+            var path = new List<Vertex>();
+            if(this.cameFrom[cameFrom] != null) 
+            {
+                path.AddRange(this.ReconstructPath(cameFrom, this.cameFrom[cameFrom]));
+                return path;
+            }
+            return new List<Vertex>(0);
         }
 
         private float DistanceBetween(Vertex parent, Vertex current)
