@@ -20,7 +20,7 @@
 
             do
             {
-                var vertexWithLowestFScore = this.GetVetexWithLowestFScore(openset);
+                var vertexWithLowestFScore = this.GetVertexWithLowestFScore(openset);
                 if (vertexWithLowestFScore == destination)
                 {
                     this.ReconstructPath(vertexWithLowestFScore, destination);
@@ -57,7 +57,7 @@
             } while (openset.Any());
         }
 
-        private Vertex GetVetexWithLowestFScore(IEnumerable<Vertex> vertices)
+        private Vertex GetVertexWithLowestFScore(IEnumerable<Vertex> vertices)
         {
             throw new System.NotImplementedException();
         }
