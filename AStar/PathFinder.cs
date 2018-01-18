@@ -7,6 +7,7 @@
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
     public class PathFinder : IPathFinder
     {    
+        private Vertex destination;
         private Dictionary<Vertex, float> gScore = new Dictionary<Vertex, float>();
         private Dictionary<Vertex, float> hScore = new Dictionary<Vertex, float>();
         private Dictionary<Vertex, float> fScore = new Dictionary<Vertex, float>();
@@ -14,6 +15,7 @@
 
         public void FindPath(Vertex source, Vertex destination)
         {
+            this.destination = destination;
             var closedset = new List<Vertex>();
             var openset = source.Edges.Select(edge => edge.B).ToList();
             this.gScore[source] = 0;
@@ -59,7 +61,9 @@
 
         private Vertex GetVertexWithLowestFScore(IEnumerable<Vertex> vertices)
         {
-            throw new System.NotImplementedException();
+            return vertices.OrderBy(vertex => 
+                this.cameFrom[vertex] == null ? 0 : this.gScore[this.cameFrom[vertex]] +
+                this.GetHeuristicEstimateOfDistanceToGoalFrom(vertex, this.destination)).FirstOrDefault();
         }
 
         private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination)
