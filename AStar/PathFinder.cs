@@ -13,9 +13,17 @@
         private Dictionary<Vertex, float> fScore = new Dictionary<Vertex, float>();
         private Dictionary<Vertex, Vertex> cameFrom = new Dictionary<Vertex, Vertex>();
 
-        public void FindPath(Vertex source, Vertex destination)
+        public PathFinderResult FindPath(Vertex source, Vertex destination)
         {
             this.destination = destination;
+            var result = new PathFinderResult();
+
+            if(source == null || destination == null || source.Edges == null || source.Edges.Count() == 0 ||
+                destination.Edges == null || destination.Edges.Count() == 0)
+                {
+                    result.Success = false;
+                    return result;
+                } 
             var closedset = new List<Vertex>();
             var openset = source.Edges.Select(edge => edge.B).ToList();
             this.gScore[source] = 0;
@@ -25,7 +33,9 @@
                 var vertexWithLowestFScore = this.GetVertexWithLowestFScore(openset);
                 if (vertexWithLowestFScore == destination)
                 {
-                    this.ReconstructPath(vertexWithLowestFScore, destination);
+                    result.Path = this.ReconstructPath(vertexWithLowestFScore, destination);
+                    result.Success = true;
+                    return result;
                 }
                 openset.Remove(vertexWithLowestFScore);
                 closedset.Add(vertexWithLowestFScore);
@@ -57,6 +67,9 @@
                     }
                 }
             } while (openset.Any());
+            
+            result.Success = false;
+            return result;
         }
 
         private Vertex GetVertexWithLowestFScore(IEnumerable<Vertex> vertices)
