@@ -18,8 +18,8 @@
             this.destination = destination;
             var result = new PathFinderResult();
 
-            if(source == null || destination == null || source.Edges == null || source.Edges.Count() == 0 ||
-                destination.Edges == null || destination.Edges.Count() == 0)
+            if(source == null || source.Edges == null || !source.Edges.Any() ||
+               destination == null || destination.Edges == null || !destination.Edges.Any())
                 {
                     result.Success = false;
                     return result;
