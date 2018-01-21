@@ -74,9 +74,27 @@
 
         private Vertex GetVertexWithLowestFScore(IEnumerable<Vertex> vertices)
         {
-            return vertices.OrderBy(vertex => 
-                this.cameFrom[vertex] == null ? 0 : this.gScore[this.cameFrom[vertex]] +
-                this.GetHeuristicEstimateOfDistanceToGoalFrom(vertex, this.destination)).FirstOrDefault();
+            float lowestFScore = int.MaxValue;
+            Vertex vertexWithLowestScore = vertices.FirstOrDefault();
+
+            foreach (var vertex in vertices)
+            {
+                float vertexGScore = 0;
+                this.cameFrom.TryGetValue(vertex, out Vertex vertexParent);
+                if (vertexParent != null)
+                {
+                    this.gScore.TryGetValue(vertexParent, out vertexGScore);
+                }
+
+                float vertexHScore = this.GetHeuristicEstimateOfDistanceToGoalFrom(vertex, this.destination);
+                if (vertexGScore + vertexHScore < lowestFScore)
+                {
+                    lowestFScore = vertexGScore + vertexHScore;
+                    vertexWithLowestScore = vertex;
+                }
+            }
+
+            return vertexWithLowestScore;
         }
 
         private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination)
