@@ -39,6 +39,17 @@
                 #region #4 Source and Destination does not have edges
                 yield return new object[] { new Vertex(), new Vertex(), new PathFinderResult(), };
                 #endregion
+
+                #region #6 Source and Destination are connected only by one edge
+                var source = new Vertex { Id = 5 };
+                var destination = new Vertex { Id = 10 };
+                var sourceEdge = new Edge {  Weight = 3, A = source, B = destination };
+                var destinationEdge = new Edge {  Weight = 3, A = destination, B = source };
+                source.Edges.Add(sourceEdge);
+                destination.Edges.Add(destinationEdge);
+
+                yield return new object[] { source, destination, new PathFinderResult { Success = true } };
+                #endregion
             }
         }
     }
