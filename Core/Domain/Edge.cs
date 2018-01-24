@@ -1,4 +1,4 @@
-namespace PathFinder.Core 
+namespace PathFinder.Core.Domain 
 {
     public struct Edge 
     {

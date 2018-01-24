@@ -4,6 +4,8 @@
     using System.Linq;
     using Core;
 
+    using global::PathFinder.Core.Domain;
+
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
     public class PathFinder : IPathFinder
     {    

@@ -7,11 +7,13 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::PathFinder.Core.Domain;
+
     public class PathFinderAStarTests 
     {
         [Theory, MemberData(nameof(GetVerticesMapScenarios))]
         public void TestVerticesScenarios(
-            Core.Vertex source, Core.Vertex destination, PathFinderResult exceptedResult)
+            Vertex source, Vertex destination, PathFinderResult exceptedResult)
         {
             // Arrange
             var pathFinder = new PathFinder();

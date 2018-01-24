@@ -1,7 +1,7 @@
-﻿namespace PathFinder.Core 
+﻿namespace PathFinder.Core.Domain 
 {
     using System.Collections.Generic;
-    
+
     public class Vertex 
     {   
         public int Id { get; set; }
