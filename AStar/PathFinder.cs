@@ -115,7 +115,7 @@
 
         private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
         {
-            float distance = current.Id > destination.Id ? current.Id - destination.Id : destination.Id - current.Id;
+            float distance = current.Position > destination.Position ? current.Position - destination.Position : destination.Position - current.Position;
             return distance < 0 ? -distance : distance;
         }
     }

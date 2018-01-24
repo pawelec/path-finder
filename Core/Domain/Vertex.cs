@@ -4,7 +4,7 @@
 
     public class Vertex 
     {   
-        public int Id { get; set; }
+        public int Position { get; set; }
         public IList<Edge> Edges { get; set; } = new List<Edge>();
     }
 }

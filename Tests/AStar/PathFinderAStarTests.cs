@@ -43,8 +43,8 @@
                 #endregion
 
                 #region #6 Source and Destination are connected only by one edge
-                var source = new Vertex { Id = 5 };
-                var destination = new Vertex { Id = 10 };
+                var source = new Vertex { Position = 5 };
+                var destination = new Vertex { Position = 10 };
                 var sourceEdge = new Edge {  Weight = 3, A = source, B = destination };
                 var destinationEdge = new Edge {  Weight = 3, A = destination, B = source };
                 source.Edges.Add(sourceEdge);
