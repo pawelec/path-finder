@@ -1,14 +1,12 @@
 ﻿namespace PathFinder.AStar.Tests 
 {
-    using System;
-
     using Core;
     using AStar;
     using Xunit;
     using Shouldly;
     using System.Collections.Generic;
 
-    using global::PathFinder.Core.Domain;
+    using PathFinder.Core.Domain;
 
     public class PathFinderAStarTests 
     {
@@ -17,7 +15,13 @@
             Vertex<int> source, Vertex<int> destination, PathFinderResult<int> exceptedResult)
         {
             // Arrange
-            var pathFinder = new PathFinder<int>();
+            float HeuristicEstimateOfDistanceToGoalAlgorithm(Vertex<int> current, Vertex<int> dest)
+            {
+                float distance = current.Position > dest.Position ? current.Position - dest.Position : dest.Position - dest.Position;
+                return distance < 0 ? -distance : distance;
+            }
+
+            var pathFinder = new PathFinder<int>(HeuristicEstimateOfDistanceToGoalAlgorithm);
 
             // Act
             var result = pathFinder.FindPath(source, destination);

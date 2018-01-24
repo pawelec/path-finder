@@ -16,6 +16,11 @@
         private Dictionary<Vertex<T>, float> fScore = new Dictionary<Vertex<T>, float>();
         private Dictionary<Vertex<T>, Vertex<T>> cameFrom = new Dictionary<Vertex<T>, Vertex<T>>();
 
+        public PathFinder(Func<Vertex<T>, Vertex<T>, float> getHeuristicEstimateOfDistanceToGoalFrom)
+        {
+            this.getHeuristicEstimateOfDistanceToGoalFrom = getHeuristicEstimateOfDistanceToGoalFrom ?? throw new ArgumentNullException(nameof(getHeuristicEstimateOfDistanceToGoalFrom));
+        }
+
         public PathFinderResult<T> FindPath(Vertex<T> source, Vertex<T> destination)
         {
             this.destination = destination;
@@ -55,7 +60,7 @@
                     if (!openset.Contains(neightbor))
                     {
                         openset.Add(neightbor);
-                        this.hScore[neightbor] = this.GetHeuristicEstimateOfDistanceToGoalFrom(neightbor, destination);
+                        this.hScore[neightbor] = this.getHeuristicEstimateOfDistanceToGoalFrom(neightbor, destination);
                         tentative_is_better = true;
                     }
                     else if (tentative_g_score < this.gScore[neightbor])
@@ -89,7 +94,7 @@
                     this.gScore.TryGetValue(vertexParent, out vertexGScore);
                 }
 
-                float vertexHScore = this.GetHeuristicEstimateOfDistanceToGoalFrom(vertex, this.destination);
+                float vertexHScore = this.getHeuristicEstimateOfDistanceToGoalFrom(vertex, this.destination);
                 if (vertexGScore + vertexHScore < lowestFScore)
                 {
                     lowestFScore = vertexGScore + vertexHScore;
@@ -114,9 +119,6 @@
         private float DistanceBetween(Vertex<T> parent, Vertex<T> current)
             => parent.Edges.First(edge => edge.B == current).Weight;
 
-        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex<T> current, Vertex<T> destination) 
-        {
-            throw new NotImplementedException();
-        }
+        private readonly Func<Vertex<T>, Vertex<T>, float> getHeuristicEstimateOfDistanceToGoalFrom;
     }
 }
