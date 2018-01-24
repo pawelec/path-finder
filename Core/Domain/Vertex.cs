@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class Vertex 
+    public class Vertex<T> 
     {   
-        public int Position { get; set; }
-        public IList<Edge> Edges { get; set; } = new List<Edge>();
+        public T Position { get; set; }
+        public IList<Edge<T>> Edges { get; set; } = new List<Edge<T>>();
     }
 }

@@ -1,9 +1,9 @@
 namespace PathFinder.Core.Domain 
 {
-    public struct Edge 
+    public struct Edge<T> 
     {
-        public Vertex A { get; set; }
-        public Vertex B { get; set; }
+        public Vertex<T> A { get; set; }
+        public Vertex<T> B { get; set; }
         public float Weight { get; set; }
     }
 }

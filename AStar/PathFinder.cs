@@ -1,5 +1,6 @@
 ﻿namespace PathFinder.AStar
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Core;
@@ -7,18 +8,18 @@
     using global::PathFinder.Core.Domain;
 
     // Based on https://pl.wikipedia.org/wiki/Algorytm_A*
-    public class PathFinder : IPathFinder
+    public class PathFinder<T> : IPathFinder<T>
     {    
-        private Vertex destination;
-        private Dictionary<Vertex, float> gScore = new Dictionary<Vertex, float>();
-        private Dictionary<Vertex, float> hScore = new Dictionary<Vertex, float>();
-        private Dictionary<Vertex, float> fScore = new Dictionary<Vertex, float>();
-        private Dictionary<Vertex, Vertex> cameFrom = new Dictionary<Vertex, Vertex>();
+        private Vertex<T> destination;
+        private Dictionary<Vertex<T>, float> gScore = new Dictionary<Vertex<T>, float>();
+        private Dictionary<Vertex<T>, float> hScore = new Dictionary<Vertex<T>, float>();
+        private Dictionary<Vertex<T>, float> fScore = new Dictionary<Vertex<T>, float>();
+        private Dictionary<Vertex<T>, Vertex<T>> cameFrom = new Dictionary<Vertex<T>, Vertex<T>>();
 
-        public PathFinderResult FindPath(Vertex source, Vertex destination)
+        public PathFinderResult<T> FindPath(Vertex<T> source, Vertex<T> destination)
         {
             this.destination = destination;
-            var result = new PathFinderResult();
+            var result = new PathFinderResult<T>();
 
             if(source == null || source.Edges == null || !source.Edges.Any() ||
                destination == null || destination.Edges == null || !destination.Edges.Any())
@@ -26,7 +27,7 @@
                     result.Success = false;
                     return result;
                 } 
-            var closedset = new List<Vertex>();
+            var closedset = new List<Vertex<T>>();
             var openset = source.Edges.Select(edge => edge.B).ToList();
             this.gScore[source] = 0;
 
@@ -74,15 +75,15 @@
             return result;
         }
 
-        private Vertex GetVertexWithLowestFScore(IEnumerable<Vertex> vertices)
+        private Vertex<T> GetVertexWithLowestFScore(IEnumerable<Vertex<T>> vertices)
         {
             float lowestFScore = int.MaxValue;
-            Vertex vertexWithLowestScore = vertices.FirstOrDefault();
+            Vertex<T> vertexWithLowestScore = vertices.FirstOrDefault();
 
             foreach (var vertex in vertices)
             {
                 float vertexGScore = 0;
-                this.cameFrom.TryGetValue(vertex, out Vertex vertexParent);
+                this.cameFrom.TryGetValue(vertex, out Vertex<T> vertexParent);
                 if (vertexParent != null)
                 {
                     this.gScore.TryGetValue(vertexParent, out vertexGScore);
@@ -99,24 +100,23 @@
             return vertexWithLowestScore;
         }
 
-        private IEnumerable<Vertex> ReconstructPath(Vertex cameFrom, Vertex destination)
+        private IEnumerable<Vertex<T>> ReconstructPath(Vertex<T> cameFrom, Vertex<T> destination)
         {
-            var path = new List<Vertex>();
+            var path = new List<Vertex<T>>();
             if(this.cameFrom[cameFrom] != null) 
             {
                 path.AddRange(this.ReconstructPath(cameFrom, this.cameFrom[cameFrom]));
                 return path;
             }
-            return new List<Vertex>(0);
+            return new List<Vertex<T>>(0);
         }
 
-        private float DistanceBetween(Vertex parent, Vertex current)
+        private float DistanceBetween(Vertex<T> parent, Vertex<T> current)
             => parent.Edges.First(edge => edge.B == current).Weight;
 
-        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex current, Vertex destination) 
+        private float GetHeuristicEstimateOfDistanceToGoalFrom(Vertex<T> current, Vertex<T> destination) 
         {
-            float distance = current.Position > destination.Position ? current.Position - destination.Position : destination.Position - current.Position;
-            return distance < 0 ? -distance : distance;
+            throw new NotImplementedException();
         }
     }
 }

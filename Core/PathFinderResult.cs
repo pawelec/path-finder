@@ -4,10 +4,10 @@ namespace PathFinder.Core
 {
     using PathFinder.Core.Domain;
 
-    public class PathFinderResult 
+    public class PathFinderResult<T> 
     {
         public bool Success { get; set; }
 
-        public IEnumerable<Vertex> Path { get; set; } = new List<Vertex>(0);
+        public IEnumerable<Vertex<T>> Path { get; set; } = new List<Vertex<T>>(0);
     }
 }
