@@ -1,5 +1,7 @@
 ﻿namespace PathFinder.AStar.Tests 
 {
+    using System;
+
     using Core;
     using AStar;
     using Xunit;
@@ -10,8 +12,8 @@
 
     public class PathFinderAStarTests 
     {
-        [Theory, MemberData(nameof(GetVerticesMapScenarios))]
-        public void TestVerticesScenarios(
+        [Theory, MemberData(nameof(GetVerticesLineMapScenarios))]
+        public void TestVerticesLineScenarios(
             Vertex<int> source, Vertex<int> destination, PathFinderResult<int> exceptedResult)
         {
             // Arrange
@@ -30,7 +32,27 @@
             result.Success.ShouldBe(exceptedResult.Success);
         }
 
-        public static IEnumerable<object[]> GetVerticesMapScenarios
+        [Theory, MemberData(nameof(GetVerticesCartesianMapScenarios))]
+        public void TestVerticesCartesianPointScenarios(
+            Vertex<Point> source, Vertex<Point> destination, PathFinderResult<Point> exceptedResult)
+        {
+            // Arrange
+            float HeuristicEstimateOfDistanceToGoalAlgorithm(Vertex<Point> current, Vertex<Point> dest)
+            {
+                double distance = Math.Sqrt(Math.Pow(dest.Position.X - current.Position.X, 2) + Math.Pow(dest.Position.Y - current.Position.Y, 2));
+                return (float)distance;
+            }
+
+            var pathFinder = new PathFinder<Point>(HeuristicEstimateOfDistanceToGoalAlgorithm);
+
+            // Act
+            var result = pathFinder.FindPath(source, destination);
+
+            // Assert
+            result.Success.ShouldBe(exceptedResult.Success);
+        }
+
+        public static IEnumerable<object[]> GetVerticesLineMapScenarios
         {
             get
             {
@@ -46,16 +68,24 @@
                 #region #4 Source and Destination does not have edges
                 yield return new object[] { new Vertex<int>(), new Vertex<int>(), new PathFinderResult<int>(), };
                 #endregion
+            }
+        }
 
-                #region #6 Source and Destination are connected only by one edge
-                var source = new Vertex<int> { Position = 5 };
-                var destination = new Vertex<int> { Position = 10 };
-                var sourceEdge = new Edge<int> {  Weight = 3, A = source, B = destination };
-                var destinationEdge = new Edge<int> {  Weight = 3, A = destination, B = source };
-                source.Edges.Add(sourceEdge);
-                destination.Edges.Add(destinationEdge);
-
-                yield return new object[] { source, destination, new PathFinderResult<int> { Success = true } };
+        public static IEnumerable<object[]> GetVerticesCartesianMapScenarios
+        {
+            get
+            {
+                #region #1
+                yield return new object[] { null, null, new PathFinderResult<Point>(), };
+                #endregion
+                #region #2 Destination is null 
+                yield return new object[] { new Vertex<Point>(), null, new PathFinderResult<Point>(), };
+                #endregion
+                #region #3 Source is null 
+                yield return new object[] { null, new Vertex<Point>(), new PathFinderResult<Point>(), };
+                #endregion
+                #region #4 Source and Destination does not have edges
+                yield return new object[] { new Vertex<Point>(), new Vertex<Point>(), new PathFinderResult<Point>(), };
                 #endregion
             }
         }
